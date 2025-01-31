@@ -1,15 +1,17 @@
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 from datetime import datetime
-from app import db
+from flask_login import UserMixin
+
 
 # User Table
-class User(db.Model):
+class User(db.Model, UserMixin):  # Inherit from UserMixin
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     full_name = db.Column(db.String(255), nullable=False)
     qualification = db.Column(db.String(255))
+    dob = db.Column(db.Date)
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -18,7 +20,7 @@ class User(db.Model):
 
 # Subject Table
 class Subject(db.Model):
-    _tablename_ = "subject"
+    __tablename__ = "subject"  # Corrected typo
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
     description = db.Column(db.Text)
@@ -30,7 +32,7 @@ class Subject(db.Model):
 
 # Chapter Table
 class Chapter(db.Model):
-    _tablename_ = "chapter"
+    __tablename__ = "chapter"  # Corrected typo
     id = db.Column(db.Integer, primary_key=True)
     subject_id = db.Column(db.Integer, db.ForeignKey("subject.id"), nullable=False)
     name = db.Column(db.String(255), nullable=False)
@@ -44,7 +46,7 @@ class Chapter(db.Model):
 
 # Quiz Table
 class Quiz(db.Model):
-    _tablename_ = "quiz"
+    __tablename__ = "quiz"  # Corrected typo
     id = db.Column(db.Integer, primary_key=True)
     chapter_id = db.Column(db.Integer, db.ForeignKey("chapter.id"), nullable=False)
     quiz_date = db.Column(db.DateTime, nullable=False)
@@ -60,7 +62,7 @@ class Quiz(db.Model):
 
 # Question Table
 class Question(db.Model):
-    _tablename_ = "question"
+    __tablename__ = "question"  # Corrected typo
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey("quiz.id"), nullable=False)
     question_text = db.Column(db.Text)
@@ -82,7 +84,7 @@ class Question(db.Model):
 
 # QuizAttempt Table
 class QuizAttempt(db.Model):
-    _tablename_ = "quiz_attempt"
+    __tablename__ = "quiz_attempt"  # Corrected typo
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     quiz_id = db.Column(db.Integer, db.ForeignKey("quiz.id"), nullable=False)
@@ -98,7 +100,7 @@ class QuizAttempt(db.Model):
 
 # UserAnswer Table
 class UserAnswer(db.Model):
-    _tablename_ = "user_answer"
+    __tablename__ = "user_answer"  # Corrected typo
     id = db.Column(db.Integer, primary_key=True)
     quiz_attempt_id = db.Column(db.Integer, db.ForeignKey("quiz_attempt.id"), nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey("question.id"), nullable=False)
