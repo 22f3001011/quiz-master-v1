@@ -1,6 +1,7 @@
 from extensions import db
 from datetime import datetime
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 # User Table
@@ -17,6 +18,13 @@ class User(db.Model, UserMixin):  # Inherit from UserMixin
 
     # Relationships
     quiz_attempts = db.relationship("QuizAttempt", back_populates="user")
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    # Method to check password
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 # Subject Table
 class Subject(db.Model):
