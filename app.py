@@ -32,7 +32,7 @@ def create_tables():
     db.create_all()
 
     admin_email = "22f3001011@ds.study.iitm.ac.in"
-    admin_password = "Shetty123"
+    admin_password = "Admin123"
 
     if not User.query.filter_by(email=admin_email).first():
         admin = User(
